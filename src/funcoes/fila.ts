@@ -46,12 +46,12 @@ export async function escreveArquivo(texto: string): Promise<void> {
 
 export async function escreveNaFila(texto: string): Promise<void> {
   const fila = await leArquivo();
-  await escreveArquivo(`${fila}\n${texto}`);
+  await escreveArquivo(!fila ? texto : `${fila}\n${texto}`);
 }
 
 export async function consumirDaFila(): Promise<string> {
   const fila = await leArquivo();
   const [primeiraLinha] = fila.split('\n');
-  await escreveArquivo(fila.replace(`${primeiraLinha}\n`, ''));
+  await escreveArquivo(fila.indexOf('\n') === -1 ? fila.replace(`${primeiraLinha}`, '') : fila.replace(`${primeiraLinha}\n`, ''));
   return primeiraLinha;
 }
